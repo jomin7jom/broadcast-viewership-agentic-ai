@@ -1,10 +1,13 @@
+
 import streamlit as st
 
 st.set_page_config(
-    page_title="Broadcast Viewership AI",
-    page_icon="🤖"
+    page_title="Streamlit Deployment Test",
+    page_icon="✅"
 )
 
-st.title("🤖 Broadcast Viewership AI")
+st.title("Streamlit Deployment Test")
+
 st.success("Streamlit Cloud is working!")
-st.write("Deployment test successful.")
+
+st.write("The application loaded successfully.")
