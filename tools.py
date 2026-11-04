@@ -3,14 +3,32 @@ import os
 from datetime import date
 from dotenv import load_dotenv
 from databricks import sql
+from databricks.sdk.core import Config, oauth_service_principal
 
 load_dotenv()
 
+# Databricks connection settings
+hostname = os.environ["DATABRICKS_SERVER_HOSTNAME"]
+http_path = os.environ["DATABRICKS_HTTP_PATH"]
+
+# OAuth machine-to-machine authentication
+config = Config(
+    host=f"https://{hostname}",
+    client_id=os.environ["DATABRICKS_CLIENT_ID"],
+    client_secret=os.environ["DATABRICKS_CLIENT_SECRET"],
+    auth_type="oauth-m2m",
+    token=None,
+)
+
+def credential_provider():
+    return oauth_service_principal(config)
+
+
 def run_query(query, params):
     with sql.connect(
-        server_hostname=os.environ["DATABRICKS_SERVER_HOSTNAME"],
-        http_path=os.environ["DATABRICKS_HTTP_PATH"],
-        access_token=os.environ["DATABRICKS_TOKEN"]
+        server_hostname=hostname,
+        http_path=http_path,
+        credentials_provider=credential_provider
     ) as connection:
 
         with connection.cursor() as cursor:

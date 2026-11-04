@@ -2,3 +2,4 @@ streamlit
 openai
 databricks-sql-connector
 python-dotenv
+databricks-sdk
