@@ -8,6 +8,32 @@ st.set_page_config(
     layout="wide"
 )
 
+def check_password():
+    if st.session_state.get("authenticated", False):
+        return True
+
+    st.title("Broadcast Viewership Agentic AI")
+
+    password = st.text_input(
+        "Enter access password",
+        type="password"
+    )
+
+    if st.button("Sign in"):
+        expected = os.environ.get("APP_PASSWORD", "")
+
+        if expected and hmac.compare_digest(password, expected):
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Incorrect password")
+
+    return False
+
+
+if not check_password():
+    st.stop()
+
 st.title("🤖 Agentic AI: for Broadcast Viewership Data Analysis")
 
 st.caption(
